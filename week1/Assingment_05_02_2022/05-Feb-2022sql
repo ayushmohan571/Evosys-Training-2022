@@ -9,7 +9,7 @@
      SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno from emp ORDER BY deptno,job DESC;
     --5 Display all the unique job groups in the descending order?
      SELECT DISTINCT job from emp ORDER BY  job DESC;
-     --6 Display all the details of all ëMgrsí
+     --6 Display all the details of all ‚ÄòMgrs‚Äô
      SELECT  deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno from emp WHERE mgr is NOT NULL;
      --7. List the emps who joined before 1981
        SELECT  deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno from emp WHERE HIREDATE<='1-JAN-81';
@@ -38,7 +38,7 @@
         EMP
     WHERE
         ROUND((sal+nvl(comm,0))/30,0)>100;
---14.List the emps who are either ëCLERKí or ëANALYSTí in the Desc order
+--14.List the emps who are either ‚ÄòCLERK‚Äô or ‚ÄòANALYST‚Äô in the Desc order
        SELECT  deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno from emp WHERE job='CLERK' or job='ANALYST' ORDER BY empno DESC;
  --15.List the emps who joined on 1-MAY-81,3-DEC-81,17-DEC-81,19-JAN-80 in asc order of seniority
   SELECT  deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno from emp WHERE HIREDATE IN('1-MAY-81','3-DEC-81','17-DEC-81','19-JAN-80')
@@ -53,24 +53,36 @@ SELECT  deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno from emp WHERE dep
  BETWEEN 2200 AND 45000;
  --20.List the Enames those are having five characters in their Names
  SELECT ename from EMP WHERE ename LIKE '_____';
- --21.List the Enames those are starting with ëSí and with five characters
+ --21.List the Enames those are starting with ‚ÄòS‚Äô and with five characters
  SELECT ename from EMP WHERE ename LIKE 'S____';
- --22.List the emps those are having four chars and third character must be ërí
+ --22.List the emps those are having four chars and third character must be ‚Äòr‚Äô
   SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno  from EMP WHERE LOWER(ename) LIKE '__r_';
---23.List the Five character names starting with ëSí and ending with ëHí
+--23.List the Five character names starting with ‚ÄòS‚Äô and ending with ‚ÄòH‚Äô
    SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno  from EMP WHERE ename LIKE 'S___H';
 --24.List the emps who joined in January
   SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno  from EMP WHERE HIREDATE LIKE '___JAN%';
---27.List the emps whose names having a character set ëllí together
+--27.List the emps whose names having a character set ‚Äòll‚Äô together
 SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno  from EMP WHERE LOWER(ename) LIKE'%ll%'; 
 --29.List the emps who does not belong to Deptno 20
 SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno  from EMP 
             
     WHERE
            deptno NOT IN(20);
---30.List all the emps except ëPRESIDENTí & ëMGRî in asc order of Salaries
-SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno  from EMP 
-            WHERE job NOT IN('PRESIDENT') ORDER BY mgr,sal ;
+--30.List all the emps except ‚ÄòPRESIDENT‚Äô & ‚ÄòMGR‚Äù in asc order of Salaries
+SELECT 
+         empno,ename,mgr,job,hiredate,sal,comm,deptno,branchno
+    FROM
+         emp
+    WHERE 
+         job!='PRESIDENT' AND empno NOT IN 
+                                    (SELECT DISTINCT 
+                                        mgr 
+                                     FROM 
+                                        emp 
+                                     WHERE 
+                                        mgr IS NOT NULL)
+    ORDER BY
+          sal ASC;
 --31.List the emps whose Empno not starting with digit78  
 SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno  from EMP
 
@@ -78,7 +90,7 @@ SELECT deptno,empno,ename,job,mgr,hiredate,sal,comm,branchno  from EMP
            empno NOT LIKE '78%'
     ORDER BY
             sal;
---33.List the emps who are working under ëMGRí
+--33.List the emps who are working under ‚ÄòMGR‚Äô
 
 
     SELECT 
